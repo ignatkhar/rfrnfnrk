@@ -8,12 +8,12 @@
 
 import * as core from '@actions/core'
 import * as main from '../src/main'
+import AdmZip from 'adm-zip'
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 
 // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
-
-// Other utilities
-const timeRegex = /^\d{2}:\d{2}:\d{2}/
 
 // Mock the GitHub Actions core library
 let debugMock: jest.SpyInstance
@@ -31,14 +31,40 @@ describe('action', () => {
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
     setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
     setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+
+    var mock = new MockAdapter(axios);
+    mock.onPost("https://certify.bloxberg.org/createBloxbergCertificate").reply(200,
+      [
+        {
+          "mockData": ["mockData"]
+        }
+      ]
+    );
+
+    var mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip');
+    // get everything as a buffer
+    var zipFileContents = mockZip.toBuffer();
+    mock.onPost("https://certify.bloxberg.org/generatePDF").reply(200,
+      zipFileContents,
+      {
+        'Content-Disposition': 'attachment; filename=bloxbergResearchCertificates',
+        'Content-Type': 'application/x-zip-compressed'
+      }
+    );
   })
 
-  it('sets the time output', async () => {
+  it('sets the certificateVerification output', async () => {
     // Set the action's inputs as return values from core.getInput()
     getInputMock.mockImplementation((name: string): string => {
       switch (name) {
-        case 'milliseconds':
-          return '500'
+        case 'authorName':
+          return 'mockName'
+        case 'bloxbergAddress':
+          return 'mockAddress'
+        case 'researchTitle':
+          return 'mockTitle'
+        case 'email':
+          return 'mockEmail'
         default:
           return ''
       }
@@ -47,43 +73,7 @@ describe('action', () => {
     await main.run()
     expect(runMock).toHaveReturned()
 
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
-    expect(debugMock).toHaveBeenNthCalledWith(
-      2,
-      expect.stringMatching(timeRegex)
-    )
-    expect(debugMock).toHaveBeenNthCalledWith(
-      3,
-      expect.stringMatching(timeRegex)
-    )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
-    )
-    expect(errorMock).not.toHaveBeenCalled()
-  })
-
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation((name: string): string => {
-      switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
-        default:
-          return ''
-      }
-    })
-
-    await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'milliseconds not a number'
-    )
+    expect(setOutputMock).toHaveBeenCalledTimes(1)
     expect(errorMock).not.toHaveBeenCalled()
   })
 })

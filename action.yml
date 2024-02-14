@@ -1,6 +1,6 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Bloxberg certify'
+description: 'Certifies your code or documents'
+author: 'Max Planck Digital Library'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
@@ -9,15 +9,27 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
-    required: true
-    default: '1000'
+  authorName:
+    description: 'Enter your group or author(s) research was conducted with'
+    required: false
+    default: ''
+  bloxbergAddress:
+    description: 'Enter your bloxberg address that you would like the certification to be minted to'
+    required: false
+    default: '0x9858eC18a269EE69ebfD7C38eb297996827DDa98'
+  researchTitle:
+    description: 'Enter a brief description of what the data entails'
+    required: false
+    default: ''
+  email:
+    description: 'If you wish an email address to be associated with the data'
+    required: false
+    default: ''
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  certificateVerification:
+    description: 'JSON data to verify the certificate on https://certify.bloxberg.org/'
 
 runs:
   using: node20
