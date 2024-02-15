@@ -53441,7 +53441,13 @@ async function certify(data, metaData
         throw new Error(`Error certifying data: ${error}`);
     }
     else {
-        return res.data;
+        if (res.status !== 200) {
+            console.log(res);
+            return res;
+        }
+        else {
+            return res.data;
+        }
     }
 }
 exports.certify = certify;
@@ -53520,7 +53526,6 @@ async function run() {
             researchTitle,
             email
         });
-        console.log(certification);
         const zip = await (0, api_1.getVerificationZip)(certification);
         const verificationJson = await (0, verification_1.extractVerificationJson)(zip);
         core.debug(`Output 'verificationJson': ${verificationJson}`);

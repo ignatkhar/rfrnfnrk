@@ -36,7 +36,12 @@ export async function certify(
     }
     throw new Error(`Error certifying data: ${error}`)
   } else {
-    return res.data
+    if (res.status !== 200) {
+      console.log(res)
+      return res
+    } else {
+      return res.data
+    }
   }
 }
 
