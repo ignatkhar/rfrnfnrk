@@ -19,11 +19,11 @@ export async function certify(
         crid: data,
         cridType: 'sha2-256',
         enableIPFS: false,
-        metadataJson: {
+        metadataJson: JSON.stringify({
           authorName: metaData.authorName,
           researchTitle: metaData.researchTitle,
           email: metaData.email
-        }
+        })
       },
       {
         headers: {
