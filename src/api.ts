@@ -9,6 +9,7 @@ export async function certify(
   /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<any> {
   /* eslint-enable @typescript-eslint/no-explicit-any */
+  console.log('executing request')
   const res = await axios.post(
     `${baseUrl}/createBloxbergCertificate`,
     {
@@ -28,6 +29,8 @@ export async function certify(
       }
     }
   )
+
+  console.log(res.status)
 
   if (res.data.errors !== undefined) {
     let error = ''

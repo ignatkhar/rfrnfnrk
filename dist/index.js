@@ -53418,6 +53418,7 @@ async function certify(data, metaData
 /* eslint-disable @typescript-eslint/no-explicit-any */
 ) {
     /* eslint-enable @typescript-eslint/no-explicit-any */
+    console.log('executing request');
     const res = await axios_1.default.post(`${baseUrl}/createBloxbergCertificate`, {
         publicKey: metaData.bloxbergAddress,
         crid: data,
@@ -53433,6 +53434,7 @@ async function certify(data, metaData
             api_key: apiKey
         }
     });
+    console.log(res.status);
     if (res.data.errors !== undefined) {
         let error = '';
         for (const err of res.data.errors) {
