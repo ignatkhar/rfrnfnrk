@@ -10,36 +10,42 @@ export async function certify(
 ): Promise<any> {
   /* eslint-enable @typescript-eslint/no-explicit-any */
   console.log('executing request')
-  const res = await axios.post(
-    `${baseUrl}/createBloxbergCertificate`,
-    {
-      publicKey: metaData.bloxbergAddress,
-      crid: data,
-      cridType: 'sha2-256',
-      enableIPFS: false,
-      metadataJson: {
-        authorName: metaData.authorName,
-        researchTitle: metaData.researchTitle,
-        email: metaData.email
+  let res
+  try {
+    res = await axios.post(
+      `${baseUrl}/createBloxbergCertificate`,
+      {
+        publicKey: metaData.bloxbergAddress,
+        crid: data,
+        cridType: 'sha2-256',
+        enableIPFS: false,
+        metadataJson: {
+          authorName: metaData.authorName,
+          researchTitle: metaData.researchTitle,
+          email: metaData.email
+        }
+      },
+      {
+        headers: {
+          api_key: apiKey
+        }
       }
-    },
-    {
-      headers: {
-        api_key: apiKey
-      }
-    }
-  )
+    )
+  } catch (e) {
+    console.log(e)
+    console.log(res?.status)
+  }
 
-  console.log(res.status)
+  console.log(res?.status)
 
-  if (res.data.errors !== undefined) {
+  if (res?.data.errors !== undefined) {
     let error = ''
     for (const err of res.data.errors) {
       error = error.concat(' ', err)
     }
     throw new Error(`Error certifying data: ${error}`)
   } else {
-    if (res.status !== 200) {
+    if (res?.status !== 200) {
       console.log(res)
       return res
     } else {
