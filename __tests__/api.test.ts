@@ -13,14 +13,14 @@ describe('api', () => {
   })
 
   it('certify', async () => {
-    var mock = new MockAdapter(axios);
-    mock.onPost("https://certify.bloxberg.org/createBloxbergCertificate").reply(200,
-      [
+    const mock = new MockAdapter(axios)
+    mock
+      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .reply(200, [
         {
-          "mockData": ["mockData"]
+          mockData: ['mockData']
         }
-      ]
-    );
+      ])
 
     await api.certify('test', {
       authorName: '',
@@ -31,23 +31,46 @@ describe('api', () => {
     expect(certifyMock).toHaveReturned()
   })
 
-  it('getVerificationZip', async () => {
-    var mock = new MockAdapter(axios);
+  it('certify error', async () => {
+    const mock = new MockAdapter(axios)
+    mock
+      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .reply(200, {
+        errors: ['error1', 'error2']
+      })
 
-    var mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip');
+    let res
+    try {
+      res = await api.certify('test', {
+        authorName: '',
+        bloxbergAddress: '',
+        researchTitle: '',
+        email: ''
+      })
+    } catch (e) {
+      console.log(e)
+    }
+    expect(res).toEqual(undefined)
+    expect(certifyMock).toHaveReturned()
+  })
+
+  it('getVerificationZip', async () => {
+    const mock = new MockAdapter(axios)
+
+    const mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip')
     // get everything as a buffer
-    var zipFileContents = mockZip.toBuffer();
-    mock.onPost("https://certify.bloxberg.org/generatePDF").reply(200,
-      zipFileContents,
-      {
-        'Content-Disposition': 'attachment; filename=bloxbergResearchCertificates',
+    const zipFileContents = mockZip.toBuffer()
+    mock
+      .onPost('https://certify.bloxberg.org/generatePDF')
+      .reply(200, zipFileContents, {
+        'Content-Disposition':
+          'attachment; filename=bloxbergResearchCertificates',
         'Content-Type': 'application/x-zip-compressed'
-      }
-    );
+      })
 
     await api.getVerificationZip([
       {
-        "mockData": ["mockData"]
+        mockData: ['mockData']
       }
     ])
     expect(getVerificationZipMock).toHaveReturned()

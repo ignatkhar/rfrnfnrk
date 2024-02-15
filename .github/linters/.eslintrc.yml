@@ -26,6 +26,7 @@ parserOptions:
 plugins:
   - jest
   - '@typescript-eslint'
+  - 'import'
 
 extends:
   - eslint:recommended

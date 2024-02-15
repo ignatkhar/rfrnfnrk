@@ -16,41 +16,37 @@ import MockAdapter from 'axios-mock-adapter'
 const runMock = jest.spyOn(main, 'run')
 
 // Mock the GitHub Actions core library
-let debugMock: jest.SpyInstance
 let errorMock: jest.SpyInstance
 let getInputMock: jest.SpyInstance
-let setFailedMock: jest.SpyInstance
 let setOutputMock: jest.SpyInstance
 
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    debugMock = jest.spyOn(core, 'debug').mockImplementation()
     errorMock = jest.spyOn(core, 'error').mockImplementation()
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
-    setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
     setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
 
-    var mock = new MockAdapter(axios);
-    mock.onPost("https://certify.bloxberg.org/createBloxbergCertificate").reply(200,
-      [
+    const mock = new MockAdapter(axios)
+    mock
+      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .reply(200, [
         {
-          "mockData": ["mockData"]
+          mockData: ['mockData']
         }
-      ]
-    );
+      ])
 
-    var mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip');
+    const mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip')
     // get everything as a buffer
-    var zipFileContents = mockZip.toBuffer();
-    mock.onPost("https://certify.bloxberg.org/generatePDF").reply(200,
-      zipFileContents,
-      {
-        'Content-Disposition': 'attachment; filename=bloxbergResearchCertificates',
+    const zipFileContents = mockZip.toBuffer()
+    mock
+      .onPost('https://certify.bloxberg.org/generatePDF')
+      .reply(200, zipFileContents, {
+        'Content-Disposition':
+          'attachment; filename=bloxbergResearchCertificates',
         'Content-Type': 'application/x-zip-compressed'
-      }
-    );
+      })
   })
 
   it('sets the certificateVerification output', async () => {

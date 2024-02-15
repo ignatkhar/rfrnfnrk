@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github';
+import * as github from '@actions/github'
 import { certify, getVerificationZip } from './api'
 import { extractVerificationJson } from './verification'
 
@@ -22,16 +22,16 @@ export async function run(): Promise<void> {
     core.debug(`  email: ${email}`)
 
     // Certify commit hash
-    let certification = await certify(github.context.sha, {
-      authorName: authorName,
-      bloxbergAddress: bloxbergAddress,
-      researchTitle: researchTitle,
-      email: email
+    const certification = await certify(github.context.sha, {
+      authorName,
+      bloxbergAddress,
+      researchTitle,
+      email
     })
 
-    let zip = await getVerificationZip(certification)
+    const zip = await getVerificationZip(certification)
 
-    let verificationJson = await extractVerificationJson(zip)
+    const verificationJson = await extractVerificationJson(zip)
     core.debug(`Output 'verificationJson': ${verificationJson}`)
 
     // Set outputs for other workflow steps to use

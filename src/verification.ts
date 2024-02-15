@@ -2,26 +2,33 @@ import AdmZip from 'adm-zip'
 // this needs to be imported with require otherwise Jest will not import the package and leave it undefined. Also
 // the package version is pinned to 3.11.174 because newer versions use .mjs files that are not yet fully supported
 // with jest https://jestjs.io/docs/ecmascript-modules.
-var pdfjs = require('pdfjs-dist')
+const pdfjs = require('pdfjs-dist') // eslint-disable-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, import/no-commonjs
 
-export async function extractVerificationJson(zipDataBuffer: Buffer): Promise<string> {
-  let zip = new AdmZip(zipDataBuffer);
-  let zipEntries = zip.getEntries();
+export async function extractVerificationJson(
+  zipDataBuffer: Buffer
+): Promise<string> {
+  const zip = new AdmZip(zipDataBuffer)
+  const zipEntries = zip.getEntries()
 
   // only look at the first file. There should be only one file.
-  let pdfFile = zipEntries[0];
+  const pdfFile = zipEntries[0]
   if (pdfFile) {
-    let pdfDocument,pdfAttachments
+    let pdfDocument
+    let pdfAttachments
     try {
-      let pdfData  = new Uint8Array(pdfFile.getData())
+      const pdfData = new Uint8Array(pdfFile.getData())
       pdfDocument = await pdfjs.getDocument(pdfData).promise
-      pdfAttachments = await pdfDocument.getAttachments();
+      pdfAttachments = await pdfDocument.getAttachments()
       // pdfAttachments is an object that has the zipped file names as properties
-      return new TextDecoder().decode(pdfAttachments.bloxbergJSONCertificate.content)
+      return new TextDecoder().decode(
+        pdfAttachments.bloxbergJSONCertificate.content
+      )
     } catch (e) {
-      throw Error("There was a problem extracting the JSON attachment of the PDF file.")
+      throw Error(
+        'There was a problem extracting the JSON attachment of the PDF file.'
+      )
     }
   } else {
-    throw Error("There was no file inside the zip.")
+    throw Error('There was no file inside the zip.')
   }
 }

@@ -2,7 +2,10 @@ import * as verification from '../src/verification'
 import AdmZip from 'adm-zip'
 
 // Mock the action's main function
-const extractVerificationJsonMock = jest.spyOn(verification, 'extractVerificationJson')
+const extractVerificationJsonMock = jest.spyOn(
+  verification,
+  'extractVerificationJson'
+)
 
 describe('verification', () => {
   beforeEach(() => {
@@ -10,9 +13,9 @@ describe('verification', () => {
   })
 
   it('getVerificationZip', async () => {
-    var mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip');
+    const mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip')
     // get everything as a buffer
-    var zipFileContents = mockZip.toBuffer();
+    const zipFileContents = mockZip.toBuffer()
 
     await verification.extractVerificationJson(zipFileContents)
     expect(extractVerificationJsonMock).toHaveReturned()

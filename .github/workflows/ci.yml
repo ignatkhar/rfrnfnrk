@@ -56,7 +56,8 @@ jobs:
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          authorName: Max Planck Digital Library
+          researchTitle: Bloxberg GitHub action
 
       - name: Print Output
         id: output
