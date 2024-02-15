@@ -9,4 +9,6 @@
 Certifies your code or documents by certifying the commit hash,
 that triggered the GitHub action, on the bloxberg blockchain.
 
+Development: Run `npm run all` before pushing code on GitHub.
+
 Code based on https://github.com/actions/typescript-action/.

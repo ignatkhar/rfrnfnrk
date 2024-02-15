@@ -53520,6 +53520,7 @@ async function run() {
             researchTitle,
             email
         });
+        console.log(certification);
         const zip = await (0, api_1.getVerificationZip)(certification);
         const verificationJson = await (0, verification_1.extractVerificationJson)(zip);
         core.debug(`Output 'verificationJson': ${verificationJson}`);

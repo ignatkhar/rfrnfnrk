@@ -31,6 +31,8 @@ export async function run(): Promise<void> {
       email
     })
 
+    console.log(certification)
+
     const zip = await getVerificationZip(certification)
 
     const verificationJson = await extractVerificationJson(zip)
