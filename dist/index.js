@@ -53512,6 +53512,7 @@ async function run() {
         core.debug(`  bloxbergAddress: ${bloxbergAddress}`);
         core.debug(`  researchTitle: ${researchTitle}`);
         core.debug(`  email: ${email}`);
+        console.log('test');
         // Certify commit hash
         const certification = await (0, api_1.certify)(github.context.sha, {
             authorName,
