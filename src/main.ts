@@ -21,6 +21,8 @@ export async function run(): Promise<void> {
     core.debug(`  researchTitle: ${researchTitle}`)
     core.debug(`  email: ${email}`)
 
+    console.log("test")
+
     // Certify commit hash
     const certification = await certify(github.context.sha, {
       authorName,
