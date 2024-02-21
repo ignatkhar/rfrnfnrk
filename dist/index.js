@@ -53580,14 +53580,18 @@ async function extractVerificationJson(zipDataBuffer) {
         let pdfDocument;
         let pdfAttachments;
         try {
+            console.log('pdfData');
             const pdfData = new Uint8Array(pdfFile.getData());
+            console.log(pdfData);
             pdfDocument = await pdfjs.getDocument(pdfData).promise;
+            console.log(pdfDocument);
             pdfAttachments = await pdfDocument.getAttachments();
+            console.log(pdfAttachments);
             // pdfAttachments is an object that has the zipped file names as properties
             return new TextDecoder().decode(pdfAttachments.bloxbergJSONCertificate.content);
         }
         catch (e) {
-            throw Error('There was a problem extracting the JSON attachment of the PDF file.');
+            throw Error(`There was a problem extracting the JSON attachment of the PDF file: ${e}`);
         }
     }
     else {
