@@ -53418,10 +53418,12 @@ async function certify(data, metaData
 /* eslint-disable @typescript-eslint/no-explicit-any */
 ) {
     /* eslint-enable @typescript-eslint/no-explicit-any */
-    console.log('executing request');
+    console.log('certifying data...');
+    console.log(`crid: ${data}`);
     let res;
     try {
-        res = await axios_1.default.post(`${baseUrl}/createBloxbergCertificate`, {
+        res = await axios_1.default.post(`${baseUrl}/createBloxbergCertificate`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
+        {
             publicKey: metaData.bloxbergAddress,
             crid: data,
             cridType: 'sha2-256',
@@ -53429,19 +53431,19 @@ async function certify(data, metaData
             metadataJson: JSON.stringify({
                 authorName: metaData.authorName,
                 researchTitle: metaData.researchTitle,
-                email: metaData.email
+                emailAddress: metaData.email
             })
         }, {
             headers: {
-                api_key: apiKey
+                api_key: apiKey,
+                'Content-Type': 'application/json;charset=UTF-8'
             }
         });
     }
     catch (e) {
-        console.log(e);
-        console.log(res?.status);
+        console.log(`Error when sending the request: ${e}`);
+        console.log(`Response status: ${res?.status}`);
     }
-    console.log(res?.status);
     if (res?.data.errors !== undefined) {
         let error = '';
         for (const err of res.data.errors) {
@@ -53451,7 +53453,8 @@ async function certify(data, metaData
     }
     else {
         if (res?.status !== 200) {
-            console.log(res);
+            console.log(`Expected status 200 but got ${res?.status}`);
+            console.log(`Response: ${res}`);
             return res;
         }
         else {
@@ -53463,6 +53466,7 @@ exports.certify = certify;
 // Returns a zip file with a PDF file inside it. The PDF file has a JSON file attached to it.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 async function getVerificationZip(data) {
+    console.log('requesting verification data...');
     /* eslint-enable @typescript-eslint/no-explicit-any */
     const response = await axios_1.default.post(`${baseUrl}/generatePDF`, data, {
         responseType: 'arraybuffer',
@@ -53527,9 +53531,8 @@ async function run() {
         core.debug(`  bloxbergAddress: ${bloxbergAddress}`);
         core.debug(`  researchTitle: ${researchTitle}`);
         core.debug(`  email: ${email}`);
-        console.log('test');
         // Certify commit hash
-        const certification = await (0, api_1.certify)(github.context.sha, {
+        const certification = await (0, api_1.certify)([github.context.sha], {
             authorName,
             bloxbergAddress,
             researchTitle,
@@ -53568,6 +53571,7 @@ const adm_zip_1 = __importDefault(__nccwpck_require__(6761));
 // with jest https://jestjs.io/docs/ecmascript-modules.
 const pdfjs = __nccwpck_require__(767); // eslint-disable-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires, import/no-commonjs
 async function extractVerificationJson(zipDataBuffer) {
+    console.log('extracting verification data...');
     const zip = new adm_zip_1.default(zipDataBuffer);
     const zipEntries = zip.getEntries();
     // only look at the first file. There should be only one file.

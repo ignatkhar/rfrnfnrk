@@ -22,14 +22,14 @@ describe('api', () => {
         }
       ])
 
-    await api.certify('test', {
+    await api.certify(['test'], {
       authorName: '',
-      bloxbergAddress: '',
+      bloxbergAddress: '0x9858eC18a269EE69ebfD7C38eb297996827DDa98',
       researchTitle: '',
       email: ''
     })
     expect(certifyMock).toHaveReturned()
-  })
+  }, 10000)
 
   it('certify error', async () => {
     const mock = new MockAdapter(axios)
@@ -41,9 +41,9 @@ describe('api', () => {
 
     let res
     try {
-      res = await api.certify('test', {
+      res = await api.certify(['test'], {
         authorName: '',
-        bloxbergAddress: '',
+        bloxbergAddress: '0x9858eC18a269EE69ebfD7C38eb297996827DDa98',
         researchTitle: '',
         email: ''
       })

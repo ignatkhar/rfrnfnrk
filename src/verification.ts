@@ -7,6 +7,7 @@ const pdfjs = require('pdfjs-dist') // eslint-disable-line @typescript-eslint/no
 export async function extractVerificationJson(
   zipDataBuffer: Buffer
 ): Promise<string> {
+  console.log('extracting verification data...')
   const zip = new AdmZip(zipDataBuffer)
   const zipEntries = zip.getEntries()
 
