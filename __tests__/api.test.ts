@@ -29,7 +29,7 @@ describe('api', () => {
       email: ''
     })
     expect(certifyMock).toHaveReturned()
-  }, 10000)
+  })
 
   it('certify error', async () => {
     const mock = new MockAdapter(axios)
