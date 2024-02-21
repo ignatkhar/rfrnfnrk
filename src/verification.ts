@@ -26,7 +26,7 @@ export async function extractVerificationJson(
       )
     } catch (e) {
       throw Error(
-        'There was a problem extracting the JSON attachment of the PDF file.'
+        `There was a problem extracting the JSON attachment of the PDF file: ${e}`
       )
     }
   } else {
