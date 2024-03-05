@@ -12,13 +12,11 @@ describe('api', () => {
 
   it('certify', async () => {
     const mock = new MockAdapter(axios)
-    mock
-      .onPost('https://certify.bloxberg.org/generateJsonResponse')
-      .reply(200, [
-        {
-          mockData: ['mockData']
-        }
-      ])
+    mock.onPost('http://141.5.104.73/generateJsonResponse').reply(200, [
+      {
+        mockData: ['mockData']
+      }
+    ])
 
     await api.certify(['test'], {
       authorName: '',
@@ -26,6 +24,7 @@ describe('api', () => {
       researchTitle: '',
       email: ''
     })
+
     expect(certifyMock).toHaveReturned()
   })
 
