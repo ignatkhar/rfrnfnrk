@@ -61,4 +61,4 @@ jobs:
 
       - name: Print Output
         id: output
-        run: echo "${{ steps.test-action.outputs.certificateVerification }}"
+        run: echo "Your git branch has been successfully certified by bloxberg. To verify it you can copy paste the following into a json file and verify it on certify.bloxberg.org:\n\n##########\n${{ steps.test-action.outputs.certificateVerification }}\n##########"
