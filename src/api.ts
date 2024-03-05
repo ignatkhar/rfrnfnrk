@@ -9,12 +9,12 @@ export async function certify(
   /* eslint-disable @typescript-eslint/no-explicit-any */
 ): Promise<any> {
   /* eslint-enable @typescript-eslint/no-explicit-any */
-  console.log('certifying data...')
-  console.log(`crid: ${data}`)
+  console.log('certifying commit hash...')
+  console.log(`commit hash: ${data}`)
   let res
   try {
     res = await axios.post(
-      `${baseUrl}/generateJsonResponse?api_key=b7fe0027-b419-4b73-958d-0b3153366e7f`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
+      `${baseUrl}/generateJsonResponsee?api_key=b7fe0027-b419-4b73-958d-0b3153366e7f`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
       {
         publicKey: metaData.bloxbergAddress,
         crid: data,
