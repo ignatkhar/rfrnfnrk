@@ -32423,7 +32423,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getVerificationJson = exports.certify = void 0;
+exports.certify = void 0;
 const axios_1 = __importDefault(__nccwpck_require__(8757));
 const baseUrl = 'https://certify.bloxberg.org';
 const apiKey = 'b7fe0027-b419-4b73-958d-0b3153366e7f';
@@ -32435,7 +32435,7 @@ async function certify(data, metaData
     console.log(`crid: ${data}`);
     let res;
     try {
-        res = await axios_1.default.post(`${baseUrl}/createBloxbergCertificate`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
+        res = await axios_1.default.post(`${baseUrl}/generateJsonResponse`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
         {
             publicKey: metaData.bloxbergAddress,
             crid: data,
@@ -32476,19 +32476,6 @@ async function certify(data, metaData
     }
 }
 exports.certify = certify;
-// Returns a zip file with a PDF file inside it. The PDF file has a JSON file attached to it.
-/* eslint-disable @typescript-eslint/no-explicit-any */
-async function getVerificationJson(data) {
-    console.log('requesting verification data...');
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-    const response = await axios_1.default.post(`${baseUrl}/generateJsonResponse`, data, {
-        headers: {
-            api_key: apiKey
-        }
-    });
-    return response.data;
-}
-exports.getVerificationJson = getVerificationJson;
 
 
 /***/ }),
@@ -32543,13 +32530,12 @@ async function run() {
         core.debug(`  researchTitle: ${researchTitle}`);
         core.debug(`  email: ${email}`);
         // Certify commit hash
-        const certification = await (0, api_1.certify)([github.context.sha], {
+        const verificationJson = await (0, api_1.certify)([github.context.sha], {
             authorName,
             bloxbergAddress,
             researchTitle,
             email
         });
-        const verificationJson = await (0, api_1.getVerificationJson)(certification);
         core.debug(`Output 'verificationJson': ${verificationJson}`);
         // Set outputs for other workflow steps to use
         core.setOutput('certificateVerification', verificationJson);

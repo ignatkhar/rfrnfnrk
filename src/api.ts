@@ -14,7 +14,7 @@ export async function certify(
   let res
   try {
     res = await axios.post(
-      `${baseUrl}/createBloxbergCertificate`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
+      `${baseUrl}/generateJsonResponse`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
       {
         publicKey: metaData.bloxbergAddress,
         crid: data,
@@ -53,19 +53,6 @@ export async function certify(
       return res.data
     }
   }
-}
-
-// Returns a zip file with a PDF file inside it. The PDF file has a JSON file attached to it.
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export async function getVerificationJson(data: any): Promise<Buffer> {
-  console.log('requesting verification data...')
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  const response = await axios.post(`${baseUrl}/generateJsonResponse`, data, {
-    headers: {
-      api_key: apiKey
-    }
-  })
-  return response.data
 }
 
 interface BloxbergCertifyMetaData {

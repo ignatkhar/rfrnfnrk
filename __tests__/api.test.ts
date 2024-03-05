@@ -13,7 +13,7 @@ describe('api', () => {
   it('certify', async () => {
     const mock = new MockAdapter(axios)
     mock
-      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
       .reply(200, [
         {
           mockData: ['mockData']
@@ -32,7 +32,7 @@ describe('api', () => {
   it('certify error', async () => {
     const mock = new MockAdapter(axios)
     mock
-      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
       .reply(200, {
         errors: ['error1', 'error2']
       })

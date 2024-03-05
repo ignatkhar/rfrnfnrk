@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { certify, getVerificationJson } from './api'
+import { certify } from './api'
 
 /**
  * The main function for the action.
@@ -21,14 +21,12 @@ export async function run(): Promise<void> {
     core.debug(`  email: ${email}`)
 
     // Certify commit hash
-    const certification = await certify([github.context.sha], {
+    const verificationJson = await certify([github.context.sha], {
       authorName,
       bloxbergAddress,
       researchTitle,
       email
     })
-
-    const verificationJson = await getVerificationJson(certification)
 
     core.debug(`Output 'verificationJson': ${verificationJson}`)
 

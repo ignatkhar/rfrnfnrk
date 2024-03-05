@@ -29,7 +29,7 @@ describe('action', () => {
 
     const mock = new MockAdapter(axios)
     mock
-      .onPost('https://certify.bloxberg.org/createBloxbergCertificate')
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
       .reply(200, [
         {
           mockData: ['mockData']
@@ -57,7 +57,7 @@ describe('action', () => {
     await main.run()
     expect(runMock).toHaveReturned()
 
-    expect(setOutputMock).toHaveBeenCalledTimes(0)
+    expect(setOutputMock).toHaveBeenCalledTimes(1)
     expect(errorMock).not.toHaveBeenCalled()
   })
 })
