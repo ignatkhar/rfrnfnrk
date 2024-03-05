@@ -14,7 +14,7 @@ export async function certify(
   let res
   try {
     res = await axios.post(
-      `${baseUrl}/generateJsonResponsee?api_key=b7fe0027-b419-4b73-958d-0b3153366e7f`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
+      `${baseUrl}/generateJsonResponse?api_key=b7fe0027-b419-4b73-958d-0b3153366e7f`, //'http://hatnote.mpdl.mpg.de/bloxbergcertifyapptest'
       {
         publicKey: metaData.bloxbergAddress,
         crid: data,
