@@ -34,8 +34,7 @@ export async function certify(
       }
     )
   } catch (e) {
-    console.log(`Error when sending the request: ${e}`)
-    console.log(`Response status: ${res?.status}`)
+    throw new Error(`Error when sending the request: ${e}`)
   }
 
   if (res?.data.errors !== undefined) {
@@ -46,9 +45,9 @@ export async function certify(
     throw new Error(`Error certifying data: ${error}`)
   } else {
     if (res?.status !== 200) {
-      console.log(`Expected status 200 but got ${res?.status}`)
-      console.log(`Response: ${res}`)
-      return res
+      throw new Error(
+        `Expected status 200 but got ${res?.status}\nResponse: ${res}`
+      )
     } else {
       return res.data
     }

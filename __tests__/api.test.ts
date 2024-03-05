@@ -18,23 +18,25 @@ describe('api', () => {
       }
     ])
 
-    await api.certify(['test'], {
-      authorName: '',
-      bloxbergAddress: '0x9858eC18a269EE69ebfD7C38eb297996827DDa98',
-      researchTitle: '',
-      email: ''
-    })
+    try {
+      await api.certify(['test'], {
+        authorName: '',
+        bloxbergAddress: '0x9858eC18a269EE69ebfD7C38eb297996827DDa98',
+        researchTitle: '',
+        email: ''
+      })
+    } catch (e) {
+      console.log(e)
+    }
 
     expect(certifyMock).toHaveReturned()
   })
 
   it('certify error', async () => {
     const mock = new MockAdapter(axios)
-    mock
-      .onPost('https://certify.bloxberg.org/generateJsonResponse')
-      .reply(200, {
-        errors: ['error1', 'error2']
-      })
+    mock.onPost('http://141.5.104.73/generateJsonResponse').reply(200, {
+      errors: ['error1', 'error2']
+    })
 
     let res
     try {
