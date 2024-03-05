@@ -31,7 +31,7 @@ export async function run(): Promise<void> {
     core.debug(`Output 'verificationJson': ${verificationJson}`)
 
     // Set outputs for other workflow steps to use
-    core.setOutput('certificateVerification', verificationJson)
+    core.setOutput('certificateVerification', JSON.stringify(verificationJson))
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
