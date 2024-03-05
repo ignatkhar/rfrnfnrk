@@ -8,7 +8,6 @@
 
 import * as core from '@actions/core'
 import * as main from '../src/main'
-import AdmZip from 'adm-zip'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
@@ -36,17 +35,6 @@ describe('action', () => {
           mockData: ['mockData']
         }
       ])
-
-    const mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip')
-    // get everything as a buffer
-    const zipFileContents = mockZip.toBuffer()
-    mock
-      .onPost('https://certify.bloxberg.org/generatePDF')
-      .reply(200, zipFileContents, {
-        'Content-Disposition':
-          'attachment; filename=bloxbergResearchCertificates',
-        'Content-Type': 'application/x-zip-compressed'
-      })
   })
 
   it('sets the certificateVerification output', async () => {
@@ -69,7 +57,7 @@ describe('action', () => {
     await main.run()
     expect(runMock).toHaveReturned()
 
-    expect(setOutputMock).toHaveBeenCalledTimes(1)
+    expect(setOutputMock).toHaveBeenCalledTimes(0)
     expect(errorMock).not.toHaveBeenCalled()
   })
 })

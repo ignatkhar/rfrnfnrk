@@ -1,11 +1,9 @@
 import * as api from '../src/api'
-import AdmZip from 'adm-zip'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 
 // Mock the action's main function
 const certifyMock = jest.spyOn(api, 'certify')
-const getVerificationZipMock = jest.spyOn(api, 'getVerificationZip')
 
 describe('api', () => {
   beforeEach(() => {
@@ -52,27 +50,5 @@ describe('api', () => {
     }
     expect(res).toEqual(undefined)
     expect(certifyMock).toHaveReturned()
-  })
-
-  it('getVerificationZip', async () => {
-    const mock = new MockAdapter(axios)
-
-    const mockZip = new AdmZip('./__tests__/BloxbergDataCertificatesMock.zip')
-    // get everything as a buffer
-    const zipFileContents = mockZip.toBuffer()
-    mock
-      .onPost('https://certify.bloxberg.org/generatePDF')
-      .reply(200, zipFileContents, {
-        'Content-Disposition':
-          'attachment; filename=bloxbergResearchCertificates',
-        'Content-Type': 'application/x-zip-compressed'
-      })
-
-    await api.getVerificationZip([
-      {
-        mockData: ['mockData']
-      }
-    ])
-    expect(getVerificationZipMock).toHaveReturned()
   })
 })

@@ -57,11 +57,10 @@ export async function certify(
 
 // Returns a zip file with a PDF file inside it. The PDF file has a JSON file attached to it.
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export async function getVerificationZip(data: any): Promise<Buffer> {
+export async function getVerificationJson(data: any): Promise<Buffer> {
   console.log('requesting verification data...')
   /* eslint-enable @typescript-eslint/no-explicit-any */
-  const response = await axios.post(`${baseUrl}/generatePDF`, data, {
-    responseType: 'arraybuffer',
+  const response = await axios.post(`${baseUrl}/generateJsonResponse`, data, {
     headers: {
       api_key: apiKey
     }

@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { certify, getVerificationZip } from './api'
-import { extractVerificationJson } from './verification'
+import { certify, getVerificationJson } from './api'
 
 /**
  * The main function for the action.
@@ -29,9 +28,8 @@ export async function run(): Promise<void> {
       email
     })
 
-    const zip = await getVerificationZip(certification)
+    const verificationJson = await getVerificationJson(certification)
 
-    const verificationJson = await extractVerificationJson(zip)
     core.debug(`Output 'verificationJson': ${verificationJson}`)
 
     // Set outputs for other workflow steps to use
