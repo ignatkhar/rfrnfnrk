@@ -32527,13 +32527,14 @@ async function run() {
         core.debug(`  researchTitle: ${researchTitle}`);
         core.debug(`  email: ${email}`);
         // Certify commit hash
-        const verificationJson = await (0, api_1.certify)([github.context.sha], {
+        let verificationJson = await (0, api_1.certify)([github.context.sha], {
             authorName,
             bloxbergAddress,
             researchTitle,
             email
         });
         core.debug(`Output 'verificationJson': ${verificationJson}`);
+        verificationJson = verificationJson.replace(/"/g, '\\"');
         // Set outputs for other workflow steps to use
         core.setOutput('certificateVerification', verificationJson);
     }
