@@ -32534,6 +32534,7 @@ async function run() {
             email
         });
         core.debug(`Output 'verificationJson': ${verificationJson}`);
+        verificationJson = JSON.stringify(verificationJson);
         verificationJson = verificationJson.replace(/"/g, '\\"');
         // Set outputs for other workflow steps to use
         core.setOutput('certificateVerification', verificationJson);
