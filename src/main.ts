@@ -21,7 +21,7 @@ export async function run(): Promise<void> {
     core.debug(`  email: ${email}`)
 
     // Certify commit hash
-    const verificationJson = await certify([github.context.sha], {
+    let verificationJson = await certify([github.context.sha], {
       authorName,
       bloxbergAddress,
       researchTitle,
@@ -30,8 +30,9 @@ export async function run(): Promise<void> {
 
     core.debug(`Output 'verificationJson': ${verificationJson}`)
 
-    // verificationJson = JSON.stringify(verificationJson)
-    // verificationJson = verificationJson.replace(/"/g, '\\"')
+    verificationJson = JSON.stringify(verificationJson)
+    verificationJson = verificationJson.replace(/\\/g, '\\\\')
+    verificationJson = verificationJson.replace(/"/g, '\\"')
     // Set outputs for other workflow steps to use
     core.setOutput('certificateVerification', verificationJson)
   } catch (error) {
