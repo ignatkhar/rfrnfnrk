@@ -28,11 +28,13 @@ describe('action', () => {
     setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
 
     const mock = new MockAdapter(axios)
-    mock.onPost('http://141.5.104.73/generateJsonResponse').reply(200, [
-      {
-        mockData: ['mockData']
-      }
-    ])
+    mock
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
+      .reply(200, [
+        {
+          mockData: ['mockData']
+        }
+      ])
   })
 
   it('sets the certificateVerification output', async () => {

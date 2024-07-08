@@ -12,11 +12,13 @@ describe('api', () => {
 
   it('certify', async () => {
     const mock = new MockAdapter(axios)
-    mock.onPost('http://141.5.104.73/generateJsonResponse').reply(200, [
-      {
-        mockData: ['mockData']
-      }
-    ])
+    mock
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
+      .reply(200, [
+        {
+          mockData: ['mockData']
+        }
+      ])
 
     try {
       await api.certify(['test'], {
@@ -34,9 +36,11 @@ describe('api', () => {
 
   it('certify error', async () => {
     const mock = new MockAdapter(axios)
-    mock.onPost('http://141.5.104.73/generateJsonResponse').reply(200, {
-      errors: ['error1', 'error2']
-    })
+    mock
+      .onPost('https://certify.bloxberg.org/generateJsonResponse')
+      .reply(200, {
+        errors: ['error1', 'error2']
+      })
 
     let res
     try {
