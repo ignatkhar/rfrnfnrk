@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://141.5.104.73' //'https://certify.bloxberg.org'
+const baseUrl = 'https://certify.bloxberg.org'
 const apiKey = 'b7fe0027-b419-4b73-958d-0b3153366e7f'
 
 export async function certify(
