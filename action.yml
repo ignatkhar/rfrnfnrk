@@ -12,7 +12,7 @@ inputs:
   authorName:
     description: 'Enter your group or author(s) research was conducted with'
     required: false
-    default: ''
+    default: 'fgrgtgtgt'
   bloxbergAddress:
     description: 'Enter your bloxberg address that you would like the certification to be minted to'
     required: false
@@ -20,11 +20,11 @@ inputs:
   researchTitle:
     description: 'Enter a brief description of what the data entails'
     required: false
-    default: ''
+    default: 'jrgrg'
   email:
     description: 'If you wish an email address to be associated with the data'
     required: false
-    default: ''
+    default: 'i3378047@gmail.com'
 
 # Define your outputs here.
 outputs:
